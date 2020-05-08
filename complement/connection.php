@@ -1,4 +1,4 @@
-<?php
+<?php namespace Complement;
     class Connection{
         private $data = array(
         'host' => 'localhost',
@@ -7,7 +7,7 @@
         'db'=>'one_article' );
         private $con;
         public function __construct(){
-            $this->con=new mysqli(
+            $this->con=new \mysqli(
                 $this->data['host'],
                 $this->data['user'],$this->data['pass'],
                 $this->data['db']

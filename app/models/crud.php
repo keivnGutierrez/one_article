@@ -1,5 +1,6 @@
-<?php 
-    require_once "../../complement/connection.php";
+<?php namespace App\Models;
+    // require_once "../../complement/connection.php";
+    use Complement\Connection;
     trait Crud{
         public function createNewRegister($values=array(),$table){
             $ul=end($values);
@@ -26,7 +27,8 @@
             $ul=end($camp);
             reset($camp);
             while($array=current($camp)){
-                $key[]=key($camp);
+                // $key[]=key($camp);
+                // print_r($array);
                 if ($array==$ul) {
                     $campAllList.=$array." ";
                 }else{
@@ -36,16 +38,10 @@
             }  
             $sql="SELECT {$campAllList} FROM {$table}";
             $resSql=$this->con->queryReturns($sql);
-            while($i=$resSql->fetch_row()){
-                $f=0; 
-               while($contador=current($key)){
-                    $res[$key[$f]][]=$i[$f];
-                    $res[$key[$f]][]=$i[$f];
-                    $f++;
-                    next($key);
-               }
-                
+            while($i=$resSql->fetch_assoc()){
+               $res[]=$i;
             }
+            // print_r($res);
             return  $res;    
         }
         public function update($table,$camp, $newValue, $idKey, $idValue){

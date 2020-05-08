@@ -1,5 +1,7 @@
-<?php
-    require_once "crud.php";
+<?php namespace App\Models;
+    // require_once "crud.php";
+    // require_once "../../complement/Connection.php";
+    // use Complement\Connection;
     class User{
         use Crud;
         public $id='DEFAULT';
@@ -8,7 +10,7 @@
         private $passUser;
         private $con;
         public function __construct(){
-            $this->con=new Connection();
+            $this->con=new \Complement\Connection();
         }
        public function log($mail,$pass) {
             $this->email=$mail;
@@ -17,10 +19,15 @@
             $resSql=$this->con->queryReturns($sql);          
             $res=$resSql->fetch_assoc();
             $this->ValidateUserLog($res);
-       }
+            
+        }
+
        private function ValidateUserLog($user){
             if ($user) {
-                echo "se encontro un usuario";
+                session_start();
+                print_r($user);
+                $_SESSION['name']=$user['name_user'];
+                echo "se encontro un usuario ".$user['name_user'];
             }else{
                 $sqlEamil=$sql="SELECT name_user FROM users WHERE email='{$this->email}'";
                 $resSqlEmail=$this->con->queryReturns($sqlEamil);
@@ -33,13 +40,19 @@
                 
             }
        }
+       public function closeSession(){
+           session_reset();
+           session_destroy();
+       }
     }
     $kevin = new User();
     // $kevin->update('users','name_user','kevin gutierrez', 'id_user', 1);
     
-    // $res=$kevin->showcamp(['name'=>'name_user'],'users');
-    // print_r($res);
+    $res=$kevin->showcamp(['name_user','email'],'users');
+    print_r($res);
 
     // $kevin->createNewRegister(['DEFAULT', 'kevin','kaksdlj@gmail.com','contraseña'],'users');
-    $kevin->log('keivn@gmail.com','contraseña');
+    // $kevin->log('keivn@gmail.com','contraseña');
+    
+
 ?>
