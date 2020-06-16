@@ -8,9 +8,9 @@
                 $route="../".str_replace('\\','/',$class).".php";
                 require_once $route;
                 // echo $route;
-                echo "<br>";
-                print($route);
-                echo "<br>";
+                // echo "<br>";
+                // print($route);
+                // echo "<br>";
             });
             }
     }
